@@ -1,0 +1,43 @@
+/**
+ * LoadingSpinner Animations
+ * Core animation logic that Tailwind doesn't provide out-of-the-box.
+ */
+
+/* Sun Rotation and Pulse */
+.loader-sun {
+  animation: sunRotate 4s linear infinite, sunPulse 2s ease-in-out infinite alternate;
+}
+
+/* Cloud Bobbing */
+.loader-cloud {
+  animation: cloudBob 3s ease-in-out infinite;
+}
+
+/* Dots Bouncing */
+.dot {
+  animation: dotBounce 1.4s infinite ease-in-out both;
+}
+
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
+
+/* Keyframes */
+@keyframes sunRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sunPulse {
+  0% { transform: scale(1); filter: brightness(1); }
+  100% { transform: scale(1.1); filter: brightness(1.2); }
+}
+
+@keyframes cloudBob {
+  0%, 100% { transform: translate(16px, 16px); }
+  50% { transform: translate(16px, 4px); }
+}
+
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
