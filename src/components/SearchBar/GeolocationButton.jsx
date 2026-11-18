@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { LocateFixed } from 'lucide-react';
 import { useTranslation } from '../../context/LanguageContext';
 import { useWeather } from '../../context/WeatherContext';
+import { fetchWithRetry } from '../../services/apiClient';
 
 const GeolocationButton = ({ onLocateComplete }) => {
   const { selectCity } = useWeather();
@@ -16,8 +17,7 @@ const GeolocationButton = ({ onLocateComplete }) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         try {
-          const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=vi`);
-          const data = await res.json();
+          const data = await fetchWithRetry('geocode/reverse', { lat, lon: lng, lang: 'vi' });
           const locationName = data.city || data.locality || data.principalSubdivision || 'Lấy vị trí';
           const countryName = data.countryName || 'Bản đồ';
           selectCity({ name: locationName, country: countryName, lat, lon: lng });

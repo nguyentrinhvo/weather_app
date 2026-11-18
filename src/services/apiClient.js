@@ -4,6 +4,14 @@
  */
 import axios from 'axios';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
+
+const api = axios.create({
+  baseURL: API_BASE,
+  timeout: 10000,
+  withCredentials: true,
+});
+
 /** In-memory cache */
 const cache = new Map();
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
@@ -32,7 +40,7 @@ export const fetchWithRetry = async (url, params, retries = 3) => {
 
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      const response = await axios.get(url, { params, timeout: 10000 });
+      const response = await api.get(url, { params });
       setCache(cacheKey, response.data);
       return response.data;
     } catch (error) {
